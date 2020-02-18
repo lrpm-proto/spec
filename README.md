@@ -45,7 +45,7 @@ should cause a fatal error, destroying the session.
 | ------ | ------------------------------------ |
 | `U8`   | An unsigned 8-bit integer.           |
 | `U64`  | An unsigned 64-bit integer.          |
-| `Str`  | An UTF-8 encoded string              |
+| `Str`  | A UTF-8 encoded string               |
 | `Map`  | A `Str` key to `Val` structure       |
 | `Val`  | A generic value tagged with its type |
 
@@ -59,7 +59,7 @@ An `Id` represents a single request unique within a session.
 
 #### `Uri` (`Str`)
 
-An `Uri` represents a resource unique across all sessions.
+A `Uri` represents a resource unique across all sessions.
 
 `Uri`s matching `$.*` are reserved for LRPMP use.
 
@@ -112,7 +112,7 @@ stages of a connection.
 
 | Field             | Type   | Description                                        |
 | ----------------- | ------ | -------------------------------------------------- |
-| `reason`          | `Uri`  | An URI uniquely describing the close reason        |
+| `reason`          | `Uri`  | A URI uniquely describing the close reason         |
 | `meta`            | `Meta` | Optional meta information on this message          |
 
 #### `HELLO` Message (`02`, `INIT`)
@@ -144,7 +144,7 @@ Error messages are a generic response to a request.
 | ----------------- | ------ | -------------------------------------------------- |
 | `request_kind`    | `Kind` | The request kind that triggered the error          | 
 | `request_id`      | `Id`   | The request ID that triggered the error            |
-| `error`           | `Uri`  | An URI uniquely describing the error               |
+| `error`           | `Uri`  | A URI uniquely describing the error                |
 | `body`            | `Body` | Body of the error message                          |
 | `meta`            | `Meta` | Optional meta information on this message          |
 
@@ -162,7 +162,7 @@ Cancel messages will trigger an `ERROR` response if successful.
 | Field             | Type   | Description                                        |
 | ----------------- | ------ | -------------------------------------------------- |
 | `request_id`      | `Id`   | An ID uniquely describing the call request         |
-| `procedure`       | `Uri`  | An URI uniquely describing the procedure           |
+| `procedure`       | `Uri`  | A URI uniquely describing the procedure            |
 | `body`            | `Body` | The body of the message                            |
 | `meta`            | `Meta` | Optional meta information on this message          |
 
@@ -188,7 +188,7 @@ Cancel messages will trigger an `ERROR` response if successful.
 | Field             | Type   | Description                                        |
 | ----------------- | ------ | -------------------------------------------------- |
 | `request_id`      | `Id`   | An ID uniquely describing the publication request  |
-| `topic`           | `Uri`  | An URI describing the topic we are publishing to   |
+| `topic`           | `Uri`  | A URI describing the topic we are publishing to    |
 | `body`            | `Body` | The body of the event being published              |
 | `meta`            | `Meta` | Optional meta information on this message          |
 
@@ -205,7 +205,7 @@ Cancel messages will trigger an `ERROR` response if successful.
 | Field             | Type   | Description                                        |
 | ----------------- | ------ | -------------------------------------------------- |
 | `request_id`      | `Id`   | An ID uniquely describing the subscription request |
-| `topic`           | `Uri`  | An URI describing the topic we are subscribing to  |
+| `topic`           | `Uri`  | A URI describing the topic we are subscribing to   |
 | `meta`            | `Meta` | Optional meta information on this message          |
 
 #### `SUBSCRIBED` Message (`64`, `RESPONSE`)
