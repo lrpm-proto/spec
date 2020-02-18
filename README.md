@@ -65,15 +65,15 @@ An `Uri` represents a resource unique across all sessions.
 
 #### `Kind` (`U8` or `Str`)
 
-A `Kind` represents a message kind (eg, `CALL`, `20`).
+A `Kind` represents a message kind (eg, `CALL`, `40`).
 
 | Range       | Description          |
 | ----------- | -------------------- |
-| `001 - 009` | Session messages     |
-| `010 - 019` | Generic messages     |
-| `020 - 029` | RPC messages         |
-| `040 - 049` | PubSub messages      |
-| `050 - 126` | Reserved             |
+| `001 - 019` | Session messages     |
+| `020 - 039` | Generic messages     |
+| `040 - 059` | RPC messages         |
+| `060 - 079` | PubSub messages      |
+| `080 - 126` | Reserved             |
 | `127 - 255` | Application specific |
 
 #### `Meta` (`Map`)
@@ -136,7 +136,7 @@ stages of a connection.
 | `body`            | `Body` | The body of the message                            |
 | `meta`            | `Meta` | Optional meta information on this message          |
 
-#### `ERROR` Message (`10`, `RESPONSE`)
+#### `ERROR` Message (`20`, `RESPONSE`)
 
 Error messages are a generic response to a request.
 
@@ -148,7 +148,7 @@ Error messages are a generic response to a request.
 | `body`            | `Body` | Body of the error message                          |
 | `meta`            | `Meta` | Optional meta information on this message          |
 
-#### `CANCEL` Message (`11`, `REQUEST`)
+#### `CANCEL` Message (`21`, `REQUEST`)
 
 Cancel messages will trigger an `ERROR` response if successful.
 
@@ -157,7 +157,7 @@ Cancel messages will trigger an `ERROR` response if successful.
 | `request_id`      | `Id`   | The ID of the request we want to cancel            |
 | `meta`            | `Meta` | Optional meta information on this message          |
 
-#### `CALL` Message (`20`, `REQUEST`)
+#### `CALL` Message (`40`, `REQUEST`)
 
 | Field             | Type   | Description                                        |
 | ----------------- | ------ | -------------------------------------------------- |
@@ -166,7 +166,7 @@ Cancel messages will trigger an `ERROR` response if successful.
 | `body`            | `Body` | The body of the message                            |
 | `meta`            | `Meta` | Optional meta information on this message          |
 
-#### `RESULT` Message (`21`, `RESPONSE`)
+#### `RESULT` Message (`41`, `RESPONSE`)
 
 | Field             | Type   | Description                                        |
 | ----------------- | ------ | -------------------------------------------------- |
@@ -174,7 +174,7 @@ Cancel messages will trigger an `ERROR` response if successful.
 | `body`            | `Body` | The successful body result from the call           |
 | `meta`            | `Meta` | Optional meta information on this message          |
 
-#### `EVENT` Message (`40`, `SESSION`)
+#### `EVENT` Message (`60`, `SESSION`)
 
 | Field             | Type   | Description                                        |
 | ----------------- | ------ | -------------------------------------------------- |
@@ -183,7 +183,7 @@ Cancel messages will trigger an `ERROR` response if successful.
 | `body`            | `Body` | The body of the event                              |
 | `meta`            | `Meta` | Optional meta information on this message          |
 
-#### `PUBLISH` Message (`41`, `REQUEST`)
+#### `PUBLISH` Message (`61`, `REQUEST`)
 
 | Field             | Type   | Description                                        |
 | ----------------- | ------ | -------------------------------------------------- |
@@ -192,7 +192,7 @@ Cancel messages will trigger an `ERROR` response if successful.
 | `body`            | `Body` | The body of the event being published              |
 | `meta`            | `Meta` | Optional meta information on this message          |
 
-#### `PUBLISHED` Message (`42`, `RESPONSE`)
+#### `PUBLISHED` Message (`62`, `RESPONSE`)
 
 | Field             | Type   | Description                                        |
 | ----------------- | ------ | -------------------------------------------------- |
@@ -200,7 +200,7 @@ Cancel messages will trigger an `ERROR` response if successful.
 | `publication_id`  | `Id`   | An ID uniquely describing the publication          |
 | `meta`            | `Meta` | Optional meta information on this message          |
 
-#### `SUBSCRIBE` Message (`43`, `REQUEST`)
+#### `SUBSCRIBE` Message (`63`, `REQUEST`)
 
 | Field             | Type   | Description                                        |
 | ----------------- | ------ | -------------------------------------------------- |
@@ -208,7 +208,7 @@ Cancel messages will trigger an `ERROR` response if successful.
 | `topic`           | `Uri`  | An URI describing the topic we are subscribing to  |
 | `meta`            | `Meta` | Optional meta information on this message          |
 
-#### `SUBSCRIBED` Message (`44`, `RESPONSE`)
+#### `SUBSCRIBED` Message (`64`, `RESPONSE`)
 
 | Field             | Type   | Description                                        |
 | ----------------- | ------ | -------------------------------------------------- |
@@ -216,7 +216,7 @@ Cancel messages will trigger an `ERROR` response if successful.
 | `subscription_id` | `Id`   | An ID uniquely describing the subscription         |
 | `meta`            | `Meta` | Optional meta information on this message          |
 
-#### `UNSUBSCRIBE` Message (`45`, `REQUEST`)
+#### `UNSUBSCRIBE` Message (`65`, `REQUEST`)
 
 | Field             | Type   | Description                                        |
 | ----------------- | ------ | -------------------------------------------------- |
@@ -224,7 +224,7 @@ Cancel messages will trigger an `ERROR` response if successful.
 | `subscription_id` | `Id`   | The subscription ID we are unsubscribing from      |
 | `meta`            | `Meta` | Optional meta information on this message          |
 
-#### `UNSUBSCRIBED` Message (`46`, `RESPONSE`)
+#### `UNSUBSCRIBED` Message (`66`, `RESPONSE`)
 
 | Field             | Type   | Description                                        |
 | ----------------- | ------ | -------------------------------------------------- |
@@ -246,7 +246,7 @@ The first element is the message kind, and the following elements are the messag
 **OR**
 
 ```json
-[20, 13, "helloworld", "payload", {}]
+[40, 13, "helloworld", "payload", {}]
 ```
 
 ### Basic Type Mappings
