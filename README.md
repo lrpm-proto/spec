@@ -27,7 +27,7 @@ The current version is undefined as this is still a draft.
 | `.err.auth`      | Bad auth error occurred |
 | `.err.protocol`  | Protocol error occurred |
 | `.err.cancelled` | Request was cancelled   |
-| `.close.normal`  | Normal closing event    |
+| `.bye.normal`    | Normal closing event    |
 
 ### Basic Types
 
@@ -68,6 +68,8 @@ A `Uri` represents a resource unique across all sessions.
 #### `Kind` (`U8` or `Str`)
 
 A `Kind` represents a message kind (eg, `CALL`, `40`).
+
+- `Kind`s in `Str` form are limited to the characters `A-Z` and `_`.
 
 | Range       | Description          |
 | ----------- | -------------------- |
