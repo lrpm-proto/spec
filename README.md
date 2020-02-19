@@ -20,19 +20,14 @@ The current version is undefined as this is still a draft.
 
 ## Message Definitions
 
-### Defined `GOODBYE` Reasons
+### URI definitions
 
-| Reason URI    | Description             |
-| ------------- | ----------------------- |
-| `$.closed`    | Normal closing event    |
-| `$.auth`      | Bad auth error occurred |
-| `$.protocol`  | Protocol error occurred |
-
-### Defined `ERROR` Errors
-
-| Error URI     | Description             |
-| ------------- | ----------------------- |
-| `$.cancelled` | Request was cancelled   |
+| URI              | Description             |
+| ---------------- | ----------------------- |
+| `.err.auth`      | Bad auth error occurred |
+| `.err.protocol`  | Protocol error occurred |
+| `.err.cancelled` | Request was cancelled   |
+| `.close.normal`  | Normal closing event    |
 
 ### Basic Types
 
@@ -45,7 +40,7 @@ should cause a fatal error, destroying the session.
 | ------ | ------------------------------------ |
 | `U8`   | An unsigned 8-bit integer.           |
 | `U64`  | An unsigned 64-bit integer.          |
-| `Str`  | A UTF-8 encoded string               |
+| `Str`  | An ASCII encoded string               |
 | `Map`  | A `Str` key to `Val` structure       |
 | `Val`  | A generic value tagged with its type |
 
@@ -61,7 +56,14 @@ An `Id` represents a single request unique within a session.
 
 A `Uri` represents a resource unique across all sessions.
 
-`Uri`s matching `$.*` are reserved for LRPMP use.
+- `Uri`s that start with a `.` are reserved for LRPMP use.
+- `Uri`s are limited to the characters `_`, `.`, `*`, `a-z` and `0-9`.
+
+| Character         | Usage                                         |
+| ----------------- | --------------------------------------------- |
+| `.`               | Represents a namespace seperator              |
+| `*`               | Represents a wildcard (only valid for topics) |
+| `_`, `a-z`, `0-9` | Valid characters for identifiers              |
 
 #### `Kind` (`U8` or `Str`)
 
@@ -275,6 +277,6 @@ a `u8` will map to a `u8` and a `u64` to a `u64`.
 | `U8`   | CBOR u8                         |
 | `U64`  | CBOR u64                        |
 | `Str`  | CBOR string                     |
-| `Map`  | CBOR object (with `UTF-8` keys) |
+| `Map`  | CBOR object (with `ASCII` keys) |
 | `Seq`  | CBOR array                      |
 | `Val`  | CBOR data item                  |
