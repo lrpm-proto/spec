@@ -100,6 +100,7 @@ Messages are seperated into four groups:
 | `REQUEST`  | Messages with a request ID that require a response                 |
 | `RESPONSE` | Messages responding to a request                                   |
 
+- Message fields are ordered as defined below.
 - Messages defined only as `INIT` must not be sent when a session is in the `OKAY` state.
 - Messages defined only as `SESSION`, `REQUEST` or `RESPONSE` must not be sent when the 
   session is in the `INIT` or `AUTH` state.
