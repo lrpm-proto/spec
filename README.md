@@ -58,6 +58,7 @@ A `Uri` represents a resource unique across all sessions.
 
 - `Uri`s that start with a `.` are reserved for LRPMP use.
 - `Uri`s are limited to the characters `_`, `.`, `*`, `a-z` and `0-9`.
+- `Uri`s can not have either `*` or `.` in a sequence of more than one (eg `**`, `..`).
 
 | Character         | Usage                                         |
 | ----------------- | --------------------------------------------- |
