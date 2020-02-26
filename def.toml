@@ -1,0 +1,428 @@
+# The current version is undefined as this is still a draft
+version = ""
+
+github = "lrpm-proto/spec"
+
+uri-definitions = [
+    { uri = ".err.auth", desc = "Bad auth error occurred" },
+    { uri = ".err.proto", desc = "Protocol error occurred" },
+    { uri = ".err.cancelled", desc = "Request was cancelled" },
+    { uri = ".bye.normal", desc = "Normal closing event" }
+]
+
+###############################################################################
+
+[[stage]]
+name = "INIT"
+desc = "Session is initialising"
+
+[[stage]]
+name = "AUTH"
+desc = "Session is authenticating"
+
+[[stage]]
+name = "OKAY"
+desc = "Session is established"
+
+###############################################################################
+
+[[basic-type]]
+name = "u8"
+desc = "An unsigned 8-bit integer"
+
+[[basic-type]]
+name = "u64"
+desc = "An unsigned 64-bit integer"
+
+[[basic-type]]
+name = "str"
+desc = "An ASCII encoded string"
+
+[[basic-type]]
+name = "map"
+desc = "A `Str` key to `Val` structure"
+
+[[basic-type]]
+name = "val"
+desc = "A generic value tagged with its type"
+
+###############################################################################
+
+[[special-type]]
+name = "id"
+type = "u8"
+desc = "An `Id` represents a single request unique within a session"
+
+[[special-type]]
+name = "uri"
+type = "str"
+desc = "A `Uri` represents a resource unique across all sessions"
+
+[[special-type]]
+name = "kind"
+type = ["u8", "str"]
+desc = "A `Kind` represents a message kind (eg, `CALL`, `40`)"
+
+[[special-type]]
+name = "meta"
+type = "map"
+desc = "A `Meta` structure is arbitrary map of optional additional information"
+
+[[special-type]]
+name = "body"
+type = "val"
+desc = "A `Body` is an application specific value"
+
+###############################################################################
+
+[[message-type]]
+name = "SESSION"
+desc = "Messages used within a session, but not tied to a request"
+
+[[message-type]]
+name = "REQUEST"
+desc = "Messages with a request ID that require a response"
+
+[[message-type]]
+name = "RESPONSE"
+desc = "Messages responding to a request"
+
+###############################################################################
+
+[[message]]
+code = 1
+name = "GOODBYE"
+type = "SESSION"
+stages = ["INIT", "AUTH", "OKAY"]
+
+[[message.field]]
+name = "reason"
+type = "uri"
+desc = "A URI uniquely describing the close reason"
+
+[[message.field]]
+name = "meta"
+type = "meta"
+desc = "Optional meta information on this message"
+
+###############################################################################
+
+[[message]]
+code = 2
+name = "HELLO"
+type = "SESSION"
+stages = ["INIT"]
+
+[[message.field]]
+name = "body"
+type = "body"
+desc = "The body of the message"
+
+[[message.field]]
+name = "meta"
+type = "meta"
+desc = "Optional meta information on this message"
+
+###############################################################################
+
+[[message]]
+code = 3
+name = "PROVE"
+type = "SESSION"
+stages = ["AUTH"]
+
+[[message.field]]
+name = "body"
+type = "body"
+desc = "The body of the message"
+
+[[message.field]]
+name = "meta"
+type = "meta"
+desc = "Optional meta information on this message"
+
+###############################################################################
+
+[[message]]
+code = 4
+name = "PROOF"
+type = "SESSION"
+stages = ["AUTH"]
+
+[[message.field]]
+name = "body"
+type = "body"
+desc = "The body of the message"
+
+[[message.field]]
+name = "meta"
+type = "meta"
+desc = "Optional meta information on this message"
+
+###############################################################################
+
+[[message]]
+code = 20
+name = "ERROR"
+type = "RESPONSE"
+stages = ["OKAY"]
+
+[[message.field]]
+name = "request_kind"
+type = "kind"
+desc = "The request kind that triggered the error"
+
+[[message.field]]
+name = "request_id"
+type = "id"
+desc = "The request ID that triggered the error"
+
+[[message.field]]
+name = "error"
+type = "uri"
+desc = "A URI uniquely describing the error"
+
+[[message.field]]
+name = "body"
+type = "body"
+desc = "Body of the error message"
+
+[[message.field]]
+name = "meta"
+type = "meta"
+desc = "Optional meta information on this message"
+
+###############################################################################
+
+[[message]]
+code = 21
+name = "CANCEL"
+type = "REQUEST"
+stages = ["OKAY"]
+
+[[message.field]]
+name = "request_id"
+type = "id"
+desc = "The ID of the request we want to cancel"
+
+[[message.field]]
+name = "meta"
+type = "meta"
+desc = "Optional meta information on this message"
+
+###############################################################################
+
+[[message]]
+code = 40
+name = "CALL"
+type = "REQUEST"
+stages = ["OKAY"]
+
+[[message.field]]
+name = "request_id"
+type = "id"
+desc = "An ID uniquely describing the call request"
+
+[[message.field]]
+name = "procedure"
+type = "uri"
+desc = "A URI uniquely describing the procedure"
+
+[[message.field]]
+name = "body"
+type = "body"
+desc = "The body of the message"
+
+[[message.field]]
+name = "meta"
+type = "meta"
+desc = "Optional meta information on this message"
+
+###############################################################################
+
+[[message]]
+code = 41
+name = "RESULT"
+type = "RESPONSE"
+stages = ["OKAY"]
+
+[[message.field]]
+name = "request_id"
+type = "id"
+desc = "The ID of the call we are responding to"
+
+[[message.field]]
+name = "body"
+type = "body"
+desc = "The body of the message"
+
+[[message.field]]
+name = "meta"
+type = "meta"
+desc = "Optional meta information on this message"
+
+###############################################################################
+
+[[message]]
+code = 60
+name = "EVENT"
+type = "SESSION"
+stages = ["OKAY"]
+
+[[message.field]]
+name = "publication_id"
+type = "id"
+desc = "The publication ID"
+
+[[message.field]]
+name = "subscription_id"
+type = "id"
+desc = "The subscription ID"
+
+[[message.field]]
+name = "body"
+type = "body"
+desc = "The body of the event"
+
+[[message.field]]
+name = "meta"
+type = "meta"
+desc = "Optional meta information on this message"
+
+###############################################################################
+
+[[message]]
+code = 61
+name = "PUBLISH"
+type = "REQUEST"
+stages = ["OKAY"]
+
+[[message.field]]
+name = "request_id"
+type = "id"
+desc = "An ID uniquely describing the publication request"
+
+[[message.field]]
+name = "topic"
+type = "uri"
+desc = "A URI describing the topic we are publishing to"
+
+[[message.field]]
+name = "body"
+type = "body"
+desc = "The body of the event being published"
+
+[[message.field]]
+name = "meta"
+type = "meta"
+desc = "Optional meta information on this message"
+
+###############################################################################
+
+[[message]]
+code = 62
+name = "PUBLISHED"
+type = "RESPONSE"
+stages = ["OKAY"]
+
+[[message.field]]
+name = "request_id"
+type = "id"
+desc = "The ID of the publication request"
+
+[[message.field]]
+name = "publication_id"
+type = "id"
+desc = "An ID uniquely describing the publication"
+
+[[message.field]]
+name = "meta"
+type = "meta"
+desc = "Optional meta information on this message"
+
+###############################################################################
+
+[[message]]
+code = 63
+name = "SUBSCRIBE"
+type = "REQUEST"
+stages = ["OKAY"]
+
+[[message.field]]
+name = "request_id"
+type = "id"
+desc = "An ID uniquely describing the subscription request"
+
+[[message.field]]
+name = "topic"
+type = "uri"
+desc = "A URI describing the topic we are subscribing to"
+
+[[message.field]]
+name = "meta"
+type = "meta"
+desc = "Optional meta information on this message"
+
+###############################################################################
+
+[[message]]
+code = 64
+name = "SUBSCRIBED"
+type = "RESPONSE"
+stages = ["OKAY"]
+
+[[message.field]]
+name = "request_id"
+type = "id"
+desc = "The ID of the subscription request"
+
+[[message.field]]
+name = "subscription_id"
+type = "id"
+desc = "An ID uniquely describing the subscription"
+
+[[message.field]]
+name = "meta"
+type = "meta"
+desc = "Optional meta information on this message"
+
+###############################################################################
+
+[[message]]
+code = 65
+name = "UNSUBSCRIBE"
+type = "REQUEST"
+stages = ["OKAY"]
+
+[[message.field]]
+name = "request_id"
+type = "id"
+desc = "An ID uniquely describing the unsubscribe request"
+
+[[message.field]]
+name = "subscription_id"
+type = "id"
+desc = "The subscription ID we are unsubscribing from"
+
+[[message.field]]
+name = "meta"
+type = "meta"
+desc = "Optional meta information on this message"
+
+###############################################################################
+
+[[message]]
+code = 66
+name = "UNSUBSCRIBED"
+type = "RESPONSE"
+stages = ["OKAY"]
+
+[[message.field]]
+name = "request_id"
+type = "id"
+desc = "The ID of the unsubscribe request"
+
+[[message.field]]
+name = "meta"
+type = "meta"
+desc = "Optional meta information on this message"

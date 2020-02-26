@@ -1,0 +1,5 @@
+language: rust
+before_script:
+  - ./ci/prepare.sh
+script:
+  - mdbook build
