@@ -3,10 +3,12 @@
         `{{ items | first }}`
     {%- else -%}
         {%- for item in items -%}
-            {%- if loop.last -%}
-                {{ "and `" ~ item ~ "`" }}
+            {%- if loop.first -%}
+                {{ "`" ~ item ~ "`" }}
+            {%- elif loop.last -%}
+                {{ " and `" ~ item ~ "`" }}
             {%- else -%}
-                {{ "`" ~ item ~ "` , " }}
+                {{ ", `" ~ item ~ "`" }}
             {%- endif -%}
         {%- endfor %}
     {%- endif -%}

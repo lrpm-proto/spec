@@ -4,6 +4,6 @@
 
 | State              | Description      |
 | ------------------ | ---------------- |
-{%- for stage in stage %}
+{%- for stage in session.stages %}
 | `{{ stage.name }}` | {{ stage.desc }} |
 {%- endfor %}

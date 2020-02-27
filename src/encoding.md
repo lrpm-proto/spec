@@ -1,4 +1,4 @@
-# JSON, CBOR Message Frame
+# JSON, CBOR Message Encoding
 
 For JSON and supersets, messages are encoded as an array.
 

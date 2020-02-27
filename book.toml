@@ -5,4 +5,4 @@ authors = ["James Dyson"]
 language = "en"
 
 [preprocessor.tera]
-command = "mdbook-tera --toml ./def.toml"
+command = "mdbook-tera --toml ./src/definitions.toml"

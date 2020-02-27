@@ -8,6 +8,9 @@ The LRPM Protocol (**Lightweight RPC and PubSub Message Protocol**) is inspired 
 however is heavily stripped down to be more generic with more application 
 specific details.
 
+## Definitions
+
+Messages, types and standard values are defined in `src/definitions.toml` for use in both code and documentation generation.
 
 ## Developing the Documentation
 

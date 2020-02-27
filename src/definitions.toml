@@ -4,92 +4,117 @@ version = "0.0.0"
 github = "lrpm-proto/spec"
 
 uri_definitions = [
-    { uri = ".err.auth", desc = "Bad auth error occurred" },
-    { uri = ".err.proto", desc = "Protocol error occurred" },
-    { uri = ".err.cancelled", desc = "Request was cancelled" },
-    { uri = ".bye.normal", desc = "Normal closing event" }
+  { uri = ".err.auth", desc = "Bad auth error occurred" },
+  { uri = ".err.proto", desc = "Protocol error occurred" },
+  { uri = ".err.cancelled", desc = "Request was cancelled" },
+  { uri = ".bye.normal", desc = "Normal closing event" }
 ]
 
 ###############################################################################
 
-[[stage]]
+[[session.stages]]
 name = "INIT"
 desc = "Session is initialising"
 
-[[stage]]
+[[session.stages]]
 name = "AUTH"
 desc = "Session is authenticating"
 
-[[stage]]
+[[session.stages]]
 name = "OKAY"
 desc = "Session is established"
 
 ###############################################################################
 
-[[basic_type]]
+[[basic_types]]
 name = "u8"
 desc = "An unsigned 8-bit integer"
 
-[[basic_type]]
+[[basic_types]]
 name = "u64"
 desc = "An unsigned 64-bit integer"
 
-[[basic_type]]
+[[basic_types]]
 name = "str"
 desc = "An ASCII encoded string"
 
-[[basic_type]]
+[[basic_types]]
 name = "map"
 desc = "A `str` key to `val` structure"
 
-[[basic_type]]
+[[basic_types]]
 name = "val"
 desc = "A generic value tagged with its type"
 
 ###############################################################################
 
-[[special_type]]
+[[special_types]]
 name = "id"
-type = "u8"
-desc = "An `Id` represents a single request unique within a session"
+extends = ["u8"]
+desc = "Represents a single request unique within a session"
 
-[[special_type]]
+[[special_types]]
 name = "uri"
-type = "str"
-desc = "A `Uri` represents a resource unique across all sessions"
+extends = ["str"]
+desc = """
+Represents a resource unique across all sessions.
 
-[[special_type]]
+- URIs `SHOULD` be limited to the characters `_`, `.`, `*`, `a-z` and `0-9`.
+- URIs `SHOULD NOT` have `*` or `.` in a sequence of more than one (eg `**`, `..`).
+- User defined URIs `MUST NOT` start with a `.` as they are reserved for LRPMP use.
+
+| Character         | Usage                                         |
+| ----------------- | --------------------------------------------- |
+| `.`               | Represents a namespace seperator              |
+| `*`               | Represents a wildcard (only valid for topics) |
+| `_`, `a-z`, `0-9` | Valid characters for identifiers              |
+"""
+
+[[special_types]]
 name = "kind"
-type = ["u8", "str"]
-desc = "A `Kind` represents a message kind (eg, `CALL`, `40`)"
+extends = ["u8", "str"]
+desc = """
+Represents a message kind (eg, `CALL`, `40`).
 
-[[special_type]]
+- Kinds in `str` form `MUST` be limited to the characters `A-Z` and `_`.
+
+| Range       | Description          |
+| ----------- | -------------------- |
+| `001 - 019` | Session messages     |
+| `020 - 039` | Generic messages     |
+| `040 - 059` | RPC messages         |
+| `060 - 079` | PubSub messages      |
+| `080 - 126` | Reserved             |
+| `127 - 255` | Application specific |
+"""
+
+[[special_types]]
 name = "meta"
-type = "map"
-desc = "A `Meta` structure is arbitrary map of optional additional information"
+extends = ["map"]
+desc = "An arbitrary map of optional additional information"
 
-[[special_type]]
+[[special_types]]
 name = "body"
-type = "val"
-desc = "A `Body` is an application specific value"
+extends = ["val"]
+desc = "An application specific value"
 
 ###############################################################################
 
-[[message_type]]
+[[message.types]]
 name = "SESSION"
 desc = "Messages used within a session, but not tied to a request"
 
-[[message_type]]
+[[message.types]]
 name = "REQUEST"
 desc = "Messages with a request ID that require a response"
 
-[[message_type]]
+[[message.types]]
 name = "RESPONSE"
 desc = "Messages responding to a request"
 
 ###############################################################################
 
-[[message]]
+[[messages]]
 code = 1
 name = "GOODBYE"
 type = "SESSION"
@@ -97,19 +122,19 @@ stages = ["INIT", "AUTH", "OKAY"]
 desc = """
 """
 
-[[message.field]]
+[[messages.fields]]
 name = "reason"
 type = "uri"
 desc = "A URI uniquely describing the close reason"
 
-[[message.field]]
+[[messages.fields]]
 name = "meta"
 type = "meta"
 desc = "Optional meta information on this message"
 
 ###############################################################################
 
-[[message]]
+[[messages]]
 code = 2
 name = "HELLO"
 type = "SESSION"
@@ -117,19 +142,19 @@ stages = ["INIT"]
 desc = """
 """
 
-[[message.field]]
+[[messages.fields]]
 name = "body"
 type = "body"
 desc = "The body of the message"
 
-[[message.field]]
+[[messages.fields]]
 name = "meta"
 type = "meta"
 desc = "Optional meta information on this message"
 
 ###############################################################################
 
-[[message]]
+[[messages]]
 code = 3
 name = "PROVE"
 type = "SESSION"
@@ -137,19 +162,19 @@ stages = ["AUTH"]
 desc = """
 """
 
-[[message.field]]
+[[messages.fields]]
 name = "body"
 type = "body"
 desc = "The body of the message"
 
-[[message.field]]
+[[messages.fields]]
 name = "meta"
 type = "meta"
 desc = "Optional meta information on this message"
 
 ###############################################################################
 
-[[message]]
+[[messages]]
 code = 4
 name = "PROOF"
 type = "SESSION"
@@ -157,19 +182,19 @@ stages = ["AUTH"]
 desc = """
 """
 
-[[message.field]]
+[[messages.fields]]
 name = "body"
 type = "body"
 desc = "The body of the message"
 
-[[message.field]]
+[[messages.fields]]
 name = "meta"
 type = "meta"
 desc = "Optional meta information on this message"
 
 ###############################################################################
 
-[[message]]
+[[messages]]
 code = 20
 name = "ERROR"
 type = "RESPONSE"
@@ -177,34 +202,34 @@ stages = ["OKAY"]
 desc = """
 """
 
-[[message.field]]
+[[messages.fields]]
 name = "request_kind"
 type = "kind"
 desc = "The request kind that triggered the error"
 
-[[message.field]]
+[[messages.fields]]
 name = "request_id"
 type = "id"
 desc = "The request ID that triggered the error"
 
-[[message.field]]
+[[messages.fields]]
 name = "error"
 type = "uri"
 desc = "A URI uniquely describing the error"
 
-[[message.field]]
+[[messages.fields]]
 name = "body"
 type = "body"
 desc = "Body of the error message"
 
-[[message.field]]
+[[messages.fields]]
 name = "meta"
 type = "meta"
 desc = "Optional meta information on this message"
 
 ###############################################################################
 
-[[message]]
+[[messages]]
 code = 21
 name = "CANCEL"
 type = "REQUEST"
@@ -212,19 +237,19 @@ stages = ["OKAY"]
 desc = """
 """
 
-[[message.field]]
+[[messages.fields]]
 name = "request_id"
 type = "id"
 desc = "The ID of the request we want to cancel"
 
-[[message.field]]
+[[messages.fields]]
 name = "meta"
 type = "meta"
 desc = "Optional meta information on this message"
 
 ###############################################################################
 
-[[message]]
+[[messages]]
 code = 40
 name = "CALL"
 type = "REQUEST"
@@ -232,29 +257,29 @@ stages = ["OKAY"]
 desc = """
 """
 
-[[message.field]]
+[[messages.fields]]
 name = "request_id"
 type = "id"
 desc = "An ID uniquely describing the call request"
 
-[[message.field]]
+[[messages.fields]]
 name = "procedure"
 type = "uri"
 desc = "A URI uniquely describing the procedure"
 
-[[message.field]]
+[[messages.fields]]
 name = "body"
 type = "body"
 desc = "The body of the message"
 
-[[message.field]]
+[[messages.fields]]
 name = "meta"
 type = "meta"
 desc = "Optional meta information on this message"
 
 ###############################################################################
 
-[[message]]
+[[messages]]
 code = 41
 name = "RESULT"
 type = "RESPONSE"
@@ -262,24 +287,24 @@ stages = ["OKAY"]
 desc = """
 """
 
-[[message.field]]
+[[messages.fields]]
 name = "request_id"
 type = "id"
 desc = "The ID of the call we are responding to"
 
-[[message.field]]
+[[messages.fields]]
 name = "body"
 type = "body"
 desc = "The body of the message"
 
-[[message.field]]
+[[messages.fields]]
 name = "meta"
 type = "meta"
 desc = "Optional meta information on this message"
 
 ###############################################################################
 
-[[message]]
+[[messages]]
 code = 60
 name = "EVENT"
 type = "SESSION"
@@ -287,29 +312,29 @@ stages = ["OKAY"]
 desc = """
 """
 
-[[message.field]]
+[[messages.fields]]
 name = "publication_id"
 type = "id"
 desc = "The publication ID"
 
-[[message.field]]
+[[messages.fields]]
 name = "subscription_id"
 type = "id"
 desc = "The subscription ID"
 
-[[message.field]]
+[[messages.fields]]
 name = "body"
 type = "body"
 desc = "The body of the event"
 
-[[message.field]]
+[[messages.fields]]
 name = "meta"
 type = "meta"
 desc = "Optional meta information on this message"
 
 ###############################################################################
 
-[[message]]
+[[messages]]
 code = 61
 name = "PUBLISH"
 type = "REQUEST"
@@ -317,29 +342,29 @@ stages = ["OKAY"]
 desc = """
 """
 
-[[message.field]]
+[[messages.fields]]
 name = "request_id"
 type = "id"
 desc = "An ID uniquely describing the publication request"
 
-[[message.field]]
+[[messages.fields]]
 name = "topic"
 type = "uri"
 desc = "A URI describing the topic we are publishing to"
 
-[[message.field]]
+[[messages.fields]]
 name = "body"
 type = "body"
 desc = "The body of the event being published"
 
-[[message.field]]
+[[messages.fields]]
 name = "meta"
 type = "meta"
 desc = "Optional meta information on this message"
 
 ###############################################################################
 
-[[message]]
+[[messages]]
 code = 62
 name = "PUBLISHED"
 type = "RESPONSE"
@@ -347,24 +372,24 @@ stages = ["OKAY"]
 desc = """
 """
 
-[[message.field]]
+[[messages.fields]]
 name = "request_id"
 type = "id"
 desc = "The ID of the publication request"
 
-[[message.field]]
+[[messages.fields]]
 name = "publication_id"
 type = "id"
 desc = "An ID uniquely describing the publication"
 
-[[message.field]]
+[[messages.fields]]
 name = "meta"
 type = "meta"
 desc = "Optional meta information on this message"
 
 ###############################################################################
 
-[[message]]
+[[messages]]
 code = 63
 name = "SUBSCRIBE"
 type = "REQUEST"
@@ -372,24 +397,24 @@ stages = ["OKAY"]
 desc = """
 """
 
-[[message.field]]
+[[messages.fields]]
 name = "request_id"
 type = "id"
 desc = "An ID uniquely describing the subscription request"
 
-[[message.field]]
+[[messages.fields]]
 name = "topic"
 type = "uri"
 desc = "A URI describing the topic we are subscribing to"
 
-[[message.field]]
+[[messages.fields]]
 name = "meta"
 type = "meta"
 desc = "Optional meta information on this message"
 
 ###############################################################################
 
-[[message]]
+[[messages]]
 code = 64
 name = "SUBSCRIBED"
 type = "RESPONSE"
@@ -397,24 +422,24 @@ stages = ["OKAY"]
 desc = """
 """
 
-[[message.field]]
+[[messages.fields]]
 name = "request_id"
 type = "id"
 desc = "The ID of the subscription request"
 
-[[message.field]]
+[[messages.fields]]
 name = "subscription_id"
 type = "id"
 desc = "An ID uniquely describing the subscription"
 
-[[message.field]]
+[[messages.fields]]
 name = "meta"
 type = "meta"
 desc = "Optional meta information on this message"
 
 ###############################################################################
 
-[[message]]
+[[messages]]
 code = 65
 name = "UNSUBSCRIBE"
 type = "REQUEST"
@@ -422,24 +447,24 @@ stages = ["OKAY"]
 desc = """
 """
 
-[[message.field]]
+[[messages.fields]]
 name = "request_id"
 type = "id"
 desc = "An ID uniquely describing the unsubscribe request"
 
-[[message.field]]
+[[messages.fields]]
 name = "subscription_id"
 type = "id"
 desc = "The subscription ID we are unsubscribing from"
 
-[[message.field]]
+[[messages.fields]]
 name = "meta"
 type = "meta"
 desc = "Optional meta information on this message"
 
 ###############################################################################
 
-[[message]]
+[[messages]]
 code = 66
 name = "UNSUBSCRIBED"
 type = "RESPONSE"
@@ -447,12 +472,12 @@ stages = ["OKAY"]
 desc = """
 """
 
-[[message.field]]
+[[messages.fields]]
 name = "request_id"
 type = "id"
 desc = "The ID of the unsubscribe request"
 
-[[message.field]]
+[[messages.fields]]
 name = "meta"
 type = "meta"
 desc = "Optional meta information on this message"
