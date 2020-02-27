@@ -3,3 +3,6 @@ title = "LRPM Protocol"
 description = "Lightweight RPC and PubSub Message Protocol (LRPM Protocol)"
 authors = ["James Dyson"]
 language = "en"
+
+[preprocessor.tera]
+command = "mdbook-tera --toml ./def.toml"
