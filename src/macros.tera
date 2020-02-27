@@ -1,0 +1,13 @@
+{% macro inline_code_list(items) -%}
+    {%- if items | length == 1 -%}
+        `{{ items | first }}`
+    {%- else -%}
+        {%- for item in items -%}
+            {%- if loop.last -%}
+                {{ "and `" ~ item ~ "`" }}
+            {%- else -%}
+                {{ "`" ~ item ~ "` , " }}
+            {%- endif -%}
+        {%- endfor %}
+    {%- endif -%}
+{%- endmacro inline_code_list %}

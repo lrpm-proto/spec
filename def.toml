@@ -1,9 +1,9 @@
 # The current version is undefined as this is still a draft
-version = ""
+version = "0.0.0"
 
 github = "lrpm-proto/spec"
 
-uri-definitions = [
+uri_definitions = [
     { uri = ".err.auth", desc = "Bad auth error occurred" },
     { uri = ".err.proto", desc = "Protocol error occurred" },
     { uri = ".err.cancelled", desc = "Request was cancelled" },
@@ -26,64 +26,64 @@ desc = "Session is established"
 
 ###############################################################################
 
-[[basic-type]]
+[[basic_type]]
 name = "u8"
 desc = "An unsigned 8-bit integer"
 
-[[basic-type]]
+[[basic_type]]
 name = "u64"
 desc = "An unsigned 64-bit integer"
 
-[[basic-type]]
+[[basic_type]]
 name = "str"
 desc = "An ASCII encoded string"
 
-[[basic-type]]
+[[basic_type]]
 name = "map"
-desc = "A `Str` key to `Val` structure"
+desc = "A `str` key to `val` structure"
 
-[[basic-type]]
+[[basic_type]]
 name = "val"
 desc = "A generic value tagged with its type"
 
 ###############################################################################
 
-[[special-type]]
+[[special_type]]
 name = "id"
 type = "u8"
 desc = "An `Id` represents a single request unique within a session"
 
-[[special-type]]
+[[special_type]]
 name = "uri"
 type = "str"
 desc = "A `Uri` represents a resource unique across all sessions"
 
-[[special-type]]
+[[special_type]]
 name = "kind"
 type = ["u8", "str"]
 desc = "A `Kind` represents a message kind (eg, `CALL`, `40`)"
 
-[[special-type]]
+[[special_type]]
 name = "meta"
 type = "map"
 desc = "A `Meta` structure is arbitrary map of optional additional information"
 
-[[special-type]]
+[[special_type]]
 name = "body"
 type = "val"
 desc = "A `Body` is an application specific value"
 
 ###############################################################################
 
-[[message-type]]
+[[message_type]]
 name = "SESSION"
 desc = "Messages used within a session, but not tied to a request"
 
-[[message-type]]
+[[message_type]]
 name = "REQUEST"
 desc = "Messages with a request ID that require a response"
 
-[[message-type]]
+[[message_type]]
 name = "RESPONSE"
 desc = "Messages responding to a request"
 
@@ -94,6 +94,8 @@ code = 1
 name = "GOODBYE"
 type = "SESSION"
 stages = ["INIT", "AUTH", "OKAY"]
+desc = """
+"""
 
 [[message.field]]
 name = "reason"
@@ -112,6 +114,8 @@ code = 2
 name = "HELLO"
 type = "SESSION"
 stages = ["INIT"]
+desc = """
+"""
 
 [[message.field]]
 name = "body"
@@ -130,6 +134,8 @@ code = 3
 name = "PROVE"
 type = "SESSION"
 stages = ["AUTH"]
+desc = """
+"""
 
 [[message.field]]
 name = "body"
@@ -148,6 +154,8 @@ code = 4
 name = "PROOF"
 type = "SESSION"
 stages = ["AUTH"]
+desc = """
+"""
 
 [[message.field]]
 name = "body"
@@ -166,6 +174,8 @@ code = 20
 name = "ERROR"
 type = "RESPONSE"
 stages = ["OKAY"]
+desc = """
+"""
 
 [[message.field]]
 name = "request_kind"
@@ -199,6 +209,8 @@ code = 21
 name = "CANCEL"
 type = "REQUEST"
 stages = ["OKAY"]
+desc = """
+"""
 
 [[message.field]]
 name = "request_id"
@@ -217,6 +229,8 @@ code = 40
 name = "CALL"
 type = "REQUEST"
 stages = ["OKAY"]
+desc = """
+"""
 
 [[message.field]]
 name = "request_id"
@@ -245,6 +259,8 @@ code = 41
 name = "RESULT"
 type = "RESPONSE"
 stages = ["OKAY"]
+desc = """
+"""
 
 [[message.field]]
 name = "request_id"
@@ -268,6 +284,8 @@ code = 60
 name = "EVENT"
 type = "SESSION"
 stages = ["OKAY"]
+desc = """
+"""
 
 [[message.field]]
 name = "publication_id"
@@ -296,6 +314,8 @@ code = 61
 name = "PUBLISH"
 type = "REQUEST"
 stages = ["OKAY"]
+desc = """
+"""
 
 [[message.field]]
 name = "request_id"
@@ -324,6 +344,8 @@ code = 62
 name = "PUBLISHED"
 type = "RESPONSE"
 stages = ["OKAY"]
+desc = """
+"""
 
 [[message.field]]
 name = "request_id"
@@ -347,6 +369,8 @@ code = 63
 name = "SUBSCRIBE"
 type = "REQUEST"
 stages = ["OKAY"]
+desc = """
+"""
 
 [[message.field]]
 name = "request_id"
@@ -370,6 +394,8 @@ code = 64
 name = "SUBSCRIBED"
 type = "RESPONSE"
 stages = ["OKAY"]
+desc = """
+"""
 
 [[message.field]]
 name = "request_id"
@@ -393,6 +419,8 @@ code = 65
 name = "UNSUBSCRIBE"
 type = "REQUEST"
 stages = ["OKAY"]
+desc = """
+"""
 
 [[message.field]]
 name = "request_id"
@@ -416,6 +444,8 @@ code = 66
 name = "UNSUBSCRIBED"
 type = "RESPONSE"
 stages = ["OKAY"]
+desc = """
+"""
 
 [[message.field]]
 name = "request_id"
