@@ -11,11 +11,10 @@ specific details.
 
 ## Developing the Documentation
 
-First download `mdBook` and the Tera preprocessor.
+First install **mdBook** and the **Tera preprocessor**.
 
 ```text
-cargo install mdbook
-cargo install mdbook-tera
+cargo install mdbook mdbook-tera
 ```
 
 Then run `mdbook build` or `mdbook serve` within this project.
