@@ -1,4 +1,4 @@
-# Defined URIs
+# Standard URIs
 
 | Defined URI             | Description            |
 | ----------------------- | ---------------------- |

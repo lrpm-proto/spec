@@ -1,12 +1,6 @@
 {% import "macros.tera" as macros %}
 
-# Messages
-
-| Group                 | Description         |
-| --------------------- | ------------------- |
-{%- for msg_type in message.types %}
-| `{{ msg_type.name }}` | {{ msg_type.desc }} |
-{%- endfor %}
+# Standard Messages
 
 - Message fields are ordered as defined below.
 - Messages are defined below with the format of `<str-kind> (<u8-kind>) Message`.

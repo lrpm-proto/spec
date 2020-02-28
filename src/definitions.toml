@@ -56,37 +56,23 @@ desc = "Represents a single request unique within a session"
 [[special_types]]
 name = "uri"
 extends = ["str"]
-desc = """
-Represents a resource unique across all sessions.
-
-- URIs `SHOULD` be limited to the characters `_`, `.`, `*`, `a-z` and `0-9`.
-- URIs `SHOULD NOT` have `*` or `.` in a sequence of more than one (eg `**`, `..`).
-- User defined URIs `MUST NOT` start with a `.` as they are reserved for LRPMP use.
-
-| Character         | Usage                                         |
-| ----------------- | --------------------------------------------- |
-| `.`               | Represents a namespace seperator              |
-| `*`               | Represents a wildcard (only valid for topics) |
-| `_`, `a-z`, `0-9` | Valid characters for identifiers              |
-"""
+desc = "Represents a resource unique across all sessions"
+constraints = [
+  "`MUST NOT` start with a `.` (reserved for LRPMP use)",
+  "`SHOULD` be limited to the characters `_`, `.`, `*`, `a-z` and `0-9`",
+  "`SHOULD NOT` have `*` or `.` in a sequence of more than one (eg `**`, `..`)",
+  "`_`, `a-z` and `0-9` `SHOULD` be used for resource identification",
+  "The character `.` `SHOULD` represent a namespace separator",
+  "The character `*` `SHOULD` represent a wildcard (only valid for topics)"
+]
 
 [[special_types]]
 name = "kind"
 extends = ["u8", "str"]
-desc = """
-Represents a message kind (eg, `CALL`, `40`).
-
-- Kinds in `str` form `MUST` be limited to the characters `A-Z` and `_`.
-
-| Range       | Description          |
-| ----------- | -------------------- |
-| `001 - 019` | Session messages     |
-| `020 - 039` | Generic messages     |
-| `040 - 059` | RPC messages         |
-| `060 - 079` | PubSub messages      |
-| `080 - 126` | Reserved             |
-| `127 - 255` | Application specific |
-"""
+desc = "Represents a message kind (eg, `CALL`, `40`)"
+constraints = [
+  "`str` form `MUST` be limited to the characters `A-Z` and `_`"
+]
 
 [[special_types]]
 name = "meta"

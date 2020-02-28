@@ -26,4 +26,12 @@ Special types build upon the basic types.
 
 {{ special_type.desc }}
 
+{% if special_type.constraints is defined %}
+
+{% for constraint in special_type.constraints %}
+- {{ constraint }}
+{% endfor %}
+
+{% endif %}
+
 {% endfor %}
