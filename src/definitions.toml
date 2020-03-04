@@ -36,7 +36,7 @@ desc = "An unsigned 64-bit integer"
 
 [[basic_types]]
 name = "str"
-desc = "An ASCII encoded string"
+desc = "A UTF-8 encoded string"
 
 [[basic_types]]
 name = "map"
